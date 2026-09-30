@@ -1,0 +1,309 @@
+/* main.css */
+/* Tailwind 由 assets/vendor/tailwind.js 以浏览器 JIT 方式在运行时生成，
+   本项目没有 PostCSS 构建步骤，故不保留不会被处理的 @tailwind 指令。 */
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* 标注视觉（徽章 / 高亮 / 脉冲 / Inspector 悬浮）已全部迁移至 page-bridge.js 注入的
+   元素态 CSS（声明式锚定，iframe 内唯一样式来源），本文件不再维护镜像副本。 */
+
+/* PRD 卡片联动高亮样式 */
+.prd-card.active-highlight {
+  border-color: #60a5fa !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  background-color: #f8fafc;
+}
+.prd-card.active-highlight > .absolute {
+  opacity: 1 !important; /* 显示左侧蓝色装饰条 */
+}
+
+/* 走查导览：当前定位到的卡片 */
+.prd-card.walkthrough-active {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+  background-color: #eff6ff;
+}
+.prd-card.walkthrough-active > .absolute {
+  opacity: 1 !important;
+}
+
+/* 覆盖 Markdown 在卡片中生成的标签样式，保持紧凑并统一字号 (0.75rem / 12px) */
+.prd-desc-content,
+.prd-desc-content p,
+.prd-desc-content li {
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.prd-desc-content p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+.prd-desc-content ul {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-left: 1.2em;
+  list-style-type: disc;
+}
+.prd-desc-content ol {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-left: 1.2em;
+  list-style-type: decimal;
+}
+.prd-desc-content strong {
+  font-weight: 600;
+  color: #334155;
+}
+.prd-desc-content pre {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 6px 0;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #334155;
+  white-space: pre;
+}
+.prd-desc-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+}
+.prd-desc-content p code {
+  background: #f1f5f9;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #0f172a;
+}
+.prd-desc-content blockquote {
+  border-left: 3px solid #cbd5e1;
+  padding: 4px 10px;
+  margin: 6px 0;
+  background-color: #f8fafc;
+  color: #475569;
+  border-radius: 0 4px 4px 0;
+}
+.prd-desc-content blockquote p {
+  margin: 0.25em 0;
+  color: inherit;
+}
+.prd-desc-content blockquote p:first-child {
+  margin-top: 0;
+}
+.prd-desc-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* 工作台自绘导航节点的基础样式（不依赖 Tailwind 运行时生成，保证动态节点稳定） */
+.nav-folder-header {
+  color: #334155; /* slate-700 */
+}
+.nav-folder-header:hover {
+  background-color: #f8fafc; /* slate-50 */
+}
+.nav-item {
+  color: #475569; /* slate-600 */
+}
+.nav-item:hover {
+  background-color: #f8fafc; /* slate-50 */
+}
+.nav-item.active-node {
+  background-color: #eff6ff !important; /* blue-50 */
+  color: #1d4ed8 !important; /* blue-700 */
+  font-weight: 500 !important;
+}
+.nav-item.active-node i {
+  color: #2563eb !important; /* blue-600 */
+}
+
+/* 隐藏编辑视图下的按钮，除非在 edit 模式 */
+#nav-tree:not(.is-edit-view) .nav-edit-btn,
+#nav-tree:not(.is-edit-view) .nav-add-btn,
+#nav-tree:not(.is-edit-view) .nav-delete-btn,
+body:not(.is-edit-view) .is-edit-show,
+body:not(.is-edit-view) .prd-edit-btn,
+body:not(.is-edit-view) .prd-delete-btn,
+body:not(.is-edit-view) .rule-edit-btn,
+body:not(.is-edit-view) .rule-delete-btn,
+#annotation-list:not(.is-edit-view) .prd-edit-btn,
+#annotation-list:not(.is-edit-view) .prd-delete-btn,
+#annotation-list:not(.is-edit-view) .rule-edit-btn,
+#annotation-list:not(.is-edit-view) .rule-delete-btn,
+#prd-panel:not(.is-edit-view) .rule-edit-btn,
+#prd-panel:not(.is-edit-view) .rule-delete-btn,
+#prd-panel:not(.is-edit-view) .prd-edit-btn,
+#prd-panel:not(.is-edit-view) .prd-delete-btn,
+#page-rules-container:not(.is-edit-view) .rule-edit-btn,
+#page-rules-container:not(.is-edit-view) .rule-delete-btn,
+body:not(.is-edit-view) #project-edit-btn,
+body:not(.is-edit-view) #nav-global-add-btn {
+  display: none !important;
+}
+
+/* 项目菜单 / 演示横幅：仅编辑态可用 */
+#project-menu { min-width: 15rem; }
+body:not(.is-edit-view) #project-menu-btn,
+body:not(.is-edit-view) #project-menu,
+body.is-delivery-mode #project-menu-btn,
+body.is-delivery-mode #project-menu,
+body.is-delivery-mode #pmfw-demo-banner,
+body.is-delivery-mode #version-switcher,
+body.is-delivery-mode #pmfw-version-ribbon {
+  display: none !important;
+}
+
+/* 版本菜单项 */
+.version-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; text-align: left; padding: 8px 12px; font-size: 13px; color: #334155; background: none; border: 0; cursor: pointer; }
+.version-item:hover { background: #f8fafc; }
+.version-item.active { background: #eff6ff; }
+.version-item .ver { font-weight: 600; }
+.version-item .meta { font-size: 11px; color: #94a3b8; }
+
+/* 版本视图只读：隐藏一切写操作 */
+body.is-readonly-version #nav-global-add-btn,
+body.is-readonly-version .nav-edit-btn,
+body.is-readonly-version .nav-add-btn,
+body.is-readonly-version .nav-delete-btn,
+body.is-readonly-version .prd-edit-btn,
+body.is-readonly-version .prd-delete-btn,
+body.is-readonly-version .rule-edit-btn,
+body.is-readonly-version .rule-delete-btn,
+body.is-readonly-version #add-page-rule-btn,
+body.is-readonly-version #project-edit-btn,
+body.is-readonly-version #prompt-cart-fab,
+body.is-readonly-version .view-switch-btn[data-view="edit"] {
+  display: none !important;
+}
+
+/* 交付模式下彻底隐藏所有可能暴露框架状态的非内容控件 */
+body.is-delivery-mode #project-edit-btn,
+body.is-delivery-mode .nav-edit-btn,
+body.is-delivery-mode .nav-add-btn,
+body.is-delivery-mode .nav-delete-btn,
+body.is-delivery-mode .prd-edit-btn,
+body.is-delivery-mode .prd-delete-btn,
+body.is-delivery-mode .rule-edit-btn,
+body.is-delivery-mode .rule-delete-btn,
+body.is-delivery-mode #edit-global-req-btn {
+  display: none !important;
+}
+
+/* 页面说明容器仅在展开展示时向下撑开间距，隐藏时零间隙不产生顶白 */
+#page-rules-container:not(.hidden) {
+  margin-bottom: 1rem;
+}
+
+/* ============================================
+ * 全局说明文档（OverviewContent）渲染样式
+ * 适用 #global-req-preview 内的 Markdown 渲染结果
+ * 原样式来自 docs/overview.html 的自包含 <style>，方案 C 重构后迁入此处
+ * 中性文档排版色板（slate 灰色系），与 DESIGN.md/page-design.md 均无同步关系
+ * ============================================ */
+#global-req-preview {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: #334155;
+}
+#global-req-preview h1,
+#global-req-preview h2,
+#global-req-preview h3 {
+  color: #0f172a;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+#global-req-preview h1 { font-size: 1.5em; }
+#global-req-preview h2 { font-size: 1.25em; }
+#global-req-preview h3 { font-size: 1.1em; }
+#global-req-preview p { margin: 0.5em 0; }
+#global-req-preview ul,
+#global-req-preview ol { padding-left: 1.5em; margin: 0.5em 0; }
+#global-req-preview ul { list-style: disc; }
+#global-req-preview ol { list-style: decimal; }
+#global-req-preview li { margin: 0.2em 0; display: list-item; }
+#global-req-preview code {
+  background: #f1f5f9;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+#global-req-preview pre {
+  background: #f1f5f9;
+  padding: 0.75em;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0.5em 0;
+}
+#global-req-preview pre code {
+  background: none;
+  padding: 0;
+}
+#global-req-preview table {
+  border-collapse: collapse;
+  margin: 0.5em 0;
+}
+#global-req-preview th,
+#global-req-preview td {
+  border: 1px solid #e2e8f0;
+  padding: 0.4em 0.7em;
+}
+#global-req-preview blockquote {
+  border-left: 3px solid #cbd5e1;
+  padding-left: 1em;
+  color: #64748b;
+  margin: 0.5em 0;
+}
+#global-req-preview a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+#global-req-preview hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 1em 0;
+}
+
+/* ============================================
+ * 3.1.1 视口缩放引擎与 3.1.2 移动端拟物真机容器
+ * ============================================ */
+#prototype-container {
+  transform-origin: top center;
+  transition: transform 0.15s ease-out, border-radius 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* 手机模式：iPhone 拟物真机外壳 (超椭圆圆角 + 深空黑金属边框 + 沉浸式投影) */
+#prototype-container.mobile-device-frame {
+  width: 375px !important;
+  height: 812px !important;
+  min-height: 812px !important;
+  max-height: 812px !important;
+  border-radius: 44px !important;
+  border: 10px solid #0f172a !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1) inset !important;
+  background-color: #0f172a !important;
+  flex-shrink: 0 !important;
+}
+
+#prototype-container.mobile-device-frame #prototype-frame {
+  border-radius: 34px !important;
+  overflow: hidden !important;
+}
+
+/* 平板模式：微拟物圆角与悬浮质感 */
+#prototype-container.tablet-device-frame {
+  width: 768px !important;
+  height: 100% !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+  flex-shrink: 0 !important;
+}
